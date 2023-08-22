@@ -4,26 +4,37 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/hoangtk0100/app-context/component/server/gin/middleware"
+	mdw "github.com/hoangtk0100/app-context/component/server/gin/middleware"
 	"github.com/hoangtk0100/app-context/component/token"
 	"github.com/hoangtk0100/app-context/core"
+	"github.com/hoangtk0100/stauvise/pkg/business"
 	"github.com/hoangtk0100/stauvise/pkg/common"
+	"github.com/hoangtk0100/stauvise/pkg/middleware"
+	"github.com/hoangtk0100/stauvise/pkg/repository"
+	"gorm.io/gorm"
 )
 
 type Server struct {
 	config     *common.Config
+	db         *gorm.DB
 	tokenMaker core.TokenMakerComponent
 	router     *gin.Engine
 	ginsrv     core.GinComponent
+	repo       repository.Repository
+	biz        business.Business
 }
 
 func NewServer(config *common.Config) *Server {
 	server := &Server{
 		config:     config,
+		db:         config.DB,
 		tokenMaker: config.TokenMaker,
 		ginsrv:     config.Gin,
 		router:     config.Gin.GetRouter(),
 	}
+
+	server.repo = repository.NewRepository(server.db)
+	server.biz = business.NewBusiness(server.repo, server.tokenMaker)
 
 	server.setupRoutes()
 	return server
@@ -31,9 +42,18 @@ func NewServer(config *common.Config) *Server {
 
 func (server *Server) setupRoutes() {
 	router := server.router
-	router.Use(middleware.CORS(nil))
+	router.Use(mdw.Recovery(server.config.CTX), mdw.CORS(nil))
+	authMdw := middleware.RequireAuth(server.repo.User(), server.GetTokenMaker())
 
 	v1 := router.Group("/v1")
+
+	auth := v1.Group("/auth")
+	auth.POST("/login", server.login)
+
+	users := v1.Group("/users")
+	users.POST("/register", server.register)
+	users.Use(authMdw)
+	users.GET("/me", server.getProfile)
 
 	v1.StaticFS("/sources/", http.Dir("videos/"))
 	v1.POST("/upload", server.uploadVideo)
