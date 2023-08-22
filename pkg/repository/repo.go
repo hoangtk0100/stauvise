@@ -9,6 +9,7 @@ import (
 type Repository interface {
 	User() UserRepository
 	Session() SessionRepository
+	Category() CategoryRepository
 }
 
 type UserRepository interface {
@@ -18,4 +19,10 @@ type UserRepository interface {
 
 type SessionRepository interface {
 	Create(ctx context.Context, data *model.Session) (*model.Session, error)
+}
+
+type CategoryRepository interface {
+	Create(ctx context.Context, data *model.Category) (*model.Category, error)
+	GetByName(ctx context.Context, name string) (*model.Category, error)
+	GetAll(ctx context.Context) ([]model.Category, error)
 }

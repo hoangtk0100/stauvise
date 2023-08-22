@@ -9,3 +9,8 @@ type Category struct {
 func (Category) TableName() string {
 	return "categories"
 }
+
+type CreateCategoryParams struct {
+	Name        string `json:"name" binding:"required"`
+	Description string `json:"description,omitempty" `
+}
