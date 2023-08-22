@@ -13,13 +13,13 @@ CREATE TABLE "users" (
 );
 
 CREATE TABLE "sessions" (
-  "id" bigserial PRIMARY KEY,
+  "id" BIGSERIAL PRIMARY KEY,
   "refresh_token" varchar NOT NULL,
   "user_agent" varchar NOT NULL,
   "client_ip" VARCHAR(255) NOT NULL,
   "is_blocked" boolean NOT NULL DEFAULT false,
   "expires_at" timestamptz NOT NULL,
-  "owner_id" bigserial NOT NULL,
+  "owner_id" BIGSERIAL NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
@@ -27,10 +27,9 @@ CREATE TABLE "videos" (
   "id" BIGSERIAL PRIMARY KEY,
   "title" VARCHAR(255) NOT NULL,
   "description" TEXT,
-  "thumnail_url" varchar,
   "status" VARCHAR(24) NOT NULL,
   "old_status" VARCHAR(24),
-  "owner_id" bigserial NOT NULL,
+  "owner_id" BIGSERIAL NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
   "deleted_at" timestamptz
@@ -38,7 +37,7 @@ CREATE TABLE "videos" (
 
 CREATE TABLE "video_files" (
   "id" BIGSERIAL PRIMARY KEY,
-  "video_id" bigserial NOT NULL,
+  "video_id" BIGSERIAL NOT NULL,
   "name" VARCHAR(255) NOT NULL,
   "path" VARCHAR(255) NOT NULL,
   "format" VARCHAR(10) NOT NULL,
@@ -50,6 +49,7 @@ CREATE TABLE "video_files" (
 CREATE TABLE "categories" (
   "id" BIGSERIAL PRIMARY KEY,
   "name" VARCHAR(255) UNIQUE NOT NULL,
+  "description" VARCHAR(255),
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
   "deleted_at" timestamptz
@@ -57,15 +57,15 @@ CREATE TABLE "categories" (
 
 CREATE TABLE "video_categories" (
   "id" BIGSERIAL PRIMARY KEY,
-  "video_id" bigserial NOT NULL,
-  "category_id" bigserial NOT NULL,
+  "video_id" BIGSERIAL NOT NULL,
+  "category_id" BIGSERIAL NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "comments" (
   "id" BIGSERIAL PRIMARY KEY,
-  "video_id" bigserial NOT NULL,
-  "user_id" bigserial NOT NULL,
+  "video_id" BIGSERIAL NOT NULL,
+  "user_id" BIGSERIAL NOT NULL,
   "content" TEXT NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now()),
   "updated_at" timestamptz NOT NULL DEFAULT (now()),
