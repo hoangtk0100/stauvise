@@ -1,4 +1,25 @@
-server:
-	go run main.go
+up:
+	docker-compose up -d
 
-.PHONY: server
+upv:
+	docker-compose up
+
+updb:
+	docker-compose up -d db
+
+down:
+	docker-compose down
+
+server:
+	go run .
+
+build:
+	go build -o app
+
+outenv:
+	./app outenv
+
+outenvfile:
+	./app outenv > .env
+
+.PHONY: up upv updb down server build outenv outenvfile
