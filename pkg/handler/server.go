@@ -55,6 +55,10 @@ func (server *Server) setupRoutes() {
 	users.Use(authMdw)
 	users.GET("/me", server.getProfile)
 
+	categories := v1.Group("/categories").Use(authMdw)
+	categories.POST("/", server.createCategory)
+	categories.GET("/", server.getCategories)
+
 	v1.StaticFS("/sources/", http.Dir("videos/"))
 	v1.POST("/upload", server.uploadVideo)
 

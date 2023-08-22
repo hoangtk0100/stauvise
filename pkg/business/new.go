@@ -6,16 +6,18 @@ import (
 )
 
 type business struct {
-	repo    repository.Repository
-	authBiz AuthBusiness
-	userBiz UserBusiness
+	repo        repository.Repository
+	authBiz     AuthBusiness
+	userBiz     UserBusiness
+	categoryBiz CategoryBusiness
 }
 
 func NewBusiness(repo repository.Repository, tokenMaker token.TokenMaker) *business {
 	return &business{
-		repo:    repo,
-		authBiz: NewAuthBusiness(repo, tokenMaker),
-		userBiz: NewUserBusiness(repo),
+		repo:        repo,
+		authBiz:     NewAuthBusiness(repo, tokenMaker),
+		userBiz:     NewUserBusiness(repo),
+		categoryBiz: NewCategoryBusiness(repo),
 	}
 }
 
@@ -25,4 +27,8 @@ func (b *business) Auth() AuthBusiness {
 
 func (b *business) User() UserBusiness {
 	return b.userBiz
+}
+
+func (b *business) Category() CategoryBusiness {
+	return b.categoryBiz
 }
