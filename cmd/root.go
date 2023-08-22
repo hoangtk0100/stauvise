@@ -38,6 +38,7 @@ var rootCmd = &cobra.Command{
 		config := common.NewConfig(appCtx)
 		server := handler.NewServer(config)
 
+		server.RunDBMigration()
 		server.Start()
 	},
 }

@@ -1,9 +1,13 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Session struct {
-	ID           int64     `json:"id" gorm:"column:id;"`
+	ID           uuid.UUID `json:"id" gorm:"column:id;"`
 	OwnerID      int64     `json:"owner_id" gorm:"column:owner_id;"`
 	RefreshToken string    `json:"refresh_token" gorm:"column:refresh_token;"`
 	UserAgent    string    `json:"user_agent" gorm:"column:user_agent;"`
