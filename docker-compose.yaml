@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:14-alpine
+    restart: always
+    container_name: stauvise_db
+    environment:
+      POSTGRES_DB: stauvise
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data/
+    networks:
+      - stauvise_network
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:
+
+networks:
+  stauvise_network:
