@@ -14,15 +14,15 @@ Supported transport protocols
 - [ ] FLV
 
 Infrastructure:
-- App context: [AppContext](https://github.com/hoangtk0100/app-context)
+- App context: [AppContext](https://github.com/hoangtk0100/app-context) (library packages common components)
 - ffmpeg: `ffmpeg`
 - Database migrations: `golang-migrate`
-- Generate CRUD code from SQL: `gorm`
+- Generate CRUD operations from SQL: `gorm`
 - Database: `postgreSQL`
 - Database documentation: `dbdocs`
 - Generate SQL schema: `dbml2sql`
 - Web framework: `Gin`
-- Package and distribute software applications as lightweight containers: `docker`
+- Containerize: `docker` | `docker compose`
 
 
 ## 1. Quick start
