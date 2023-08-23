@@ -1,0 +1,17 @@
+# flyctl launch added from .gitignore
+fly.toml
+
+# OS files
+.DS_STORE
+
+# Git files
+.git
+.gitignore
+
+# IDEA files
+.idea
+.vscode
+__debug_bin
+
+# Ignore any build artifacts or compiled files
+*.log
