@@ -6,7 +6,7 @@ import (
 	"github.com/hoangtk0100/stauvise/pkg/model"
 )
 
-func (server *Server) register(ctx *gin.Context) {
+func (server *Server) Register(ctx *gin.Context) {
 	var req model.CreateUserParams
 	if err := ctx.ShouldBind(&req); err != nil {
 		core.ErrorResponse(ctx, core.ErrBadRequest.WithError(err.Error()))
@@ -21,7 +21,7 @@ func (server *Server) register(ctx *gin.Context) {
 	core.SuccessResponse(ctx, core.NewDataResponse(true))
 }
 
-func (server *Server) getProfile(ctx *gin.Context) {
+func (server *Server) GetProfile(ctx *gin.Context) {
 	user, err := server.biz.User().GetProfile(ctx)
 	if err != nil {
 		core.ErrorResponse(ctx, err)

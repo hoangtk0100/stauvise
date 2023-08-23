@@ -45,22 +45,25 @@ func (server *Server) setupRoutes() {
 	router.Use(mdw.Recovery(server.config.CTX), mdw.CORS(nil))
 	authMdw := middleware.RequireAuth(server.repo.User(), server.GetTokenMaker())
 
-	v1 := router.Group("/v1")
+	v1 := router.Group("/api/v1")
 
 	auth := v1.Group("/auth")
-	auth.POST("/login", server.login)
+	auth.POST("/login", server.Login)
 
 	users := v1.Group("/users")
-	users.POST("/register", server.register)
-	users.Use(authMdw)
-	users.GET("/me", server.getProfile)
+	users.POST("/register", server.Register)
+	users.GET("/me", authMdw, server.GetProfile)
 
 	categories := v1.Group("/categories").Use(authMdw)
-	categories.POST("/", server.createCategory)
-	categories.GET("/", server.getCategories)
+	categories.POST("", server.CreateCategory)
+	categories.GET("", server.GetCategories)
 
-	v1.StaticFS("/sources/", http.Dir("videos/"))
-	v1.POST("/upload", server.uploadVideo)
+	videos := v1.Group("/videos")
+	videos.StaticFS("/streams/", http.Dir("videos"))
+	videos.POST("", authMdw, server.CreateVideo)
+	videos.GET("", server.GetVideos)
+	videos.GET("/:id", server.GetVideoDetails)
+	videos.GET("/:id/segments", server.GetSegments)
 
 	server.router = router
 }

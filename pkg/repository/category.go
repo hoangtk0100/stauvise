@@ -17,6 +17,22 @@ func NewCategoryRepository(db *gorm.DB) *categoryRepo {
 	return &categoryRepo{db}
 }
 
+func (repo *categoryRepo) GetByIDs(ctx context.Context, ids []uint64) ([]model.Category, error) {
+	var result []model.Category
+	if err := repo.db.
+		Table(model.Category{}.TableName()).
+		Where("id in (?)", ids).
+		Find(&result).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, core.ErrNotFound
+		}
+
+		return nil, errors.WithStack(err)
+	}
+
+	return result, nil
+}
+
 func (repo *categoryRepo) GetByName(ctx context.Context, name string) (*model.Category, error) {
 	var result model.Category
 	if err := repo.db.Where("name = ?", name).First(&result).Error; err != nil {

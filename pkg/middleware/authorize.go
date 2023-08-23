@@ -68,7 +68,7 @@ func RequireAuth(repo UserRepository, tokenMaker token.TokenMaker) gin.HandlerFu
 			return
 		}
 
-		requester := core.NewRequester(strconv.FormatInt(user.ID, 10), user.Username)
+		requester := core.NewRequester(strconv.FormatUint(user.ID, 10), user.Username)
 		ctx.Set(core.KeyRequester, requester)
 		ctx.Next()
 	}

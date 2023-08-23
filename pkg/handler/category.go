@@ -6,7 +6,7 @@ import (
 	"github.com/hoangtk0100/stauvise/pkg/model"
 )
 
-func (server *Server) createCategory(ctx *gin.Context) {
+func (server *Server) CreateCategory(ctx *gin.Context) {
 	var req model.CreateCategoryParams
 	if err := ctx.ShouldBind(&req); err != nil {
 		core.ErrorResponse(ctx, core.ErrBadRequest.WithError(err.Error()))
@@ -22,7 +22,7 @@ func (server *Server) createCategory(ctx *gin.Context) {
 	core.SuccessResponse(ctx, core.NewDataResponse(category))
 }
 
-func (server *Server) getCategories(ctx *gin.Context) {
+func (server *Server) GetCategories(ctx *gin.Context) {
 	categories, err := server.biz.Category().GetAll(ctx)
 	if err != nil {
 		core.ErrorResponse(ctx, err)
