@@ -1,0 +1,104 @@
+Project stauvise {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Stauvise Database
+  '''
+}
+
+Table users as U {
+  id bigserial [pk, increment]
+  username VARCHAR(255) [unique, not null]
+  full_name VARCHAR(255) [not null]
+  email VARCHAR(255) [unique, not null]
+  hashed_password varchar [not null]
+  salt VARCHAR(255) [not null]
+  password_changed_at timestamptz [not null, default: '0001-01-01']
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+  deleted_at timestamptz
+}
+
+Table sessions as S {
+  id uuid [pk]
+  refresh_token varchar [not null]
+  user_agent varchar [not null]
+  client_ip VARCHAR(255) [not null]
+  is_blocked boolean [not null, default: false]
+  expires_at timestamptz [not null]
+  owner_id bigserial [ref: > U.id, not null]
+  created_at timestamptz [not null, default: `now()`]
+
+  Indexes {
+    owner_id
+  }
+}
+
+Table videos as V {
+  id bigserial [pk, increment]
+  title VARCHAR(255) [not null]
+  description TEXT
+  status VARCHAR(24) [not null]
+  old_status VARCHAR(24)
+  owner_id bigserial [ref: > U.id, not null]
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+  deleted_at timestamptz
+
+  Indexes {
+    owner_id
+  }
+}
+
+Table video_files {
+  id bigserial [pk, increment]
+  video_id bigserial [not null, ref: > V.id]
+  origin_name VARCHAR(255) [not null]
+  name VARCHAR(255) [not null]
+  path VARCHAR(255) [not null]
+  format VARCHAR(10) [not null]
+  provider VARCHAR(10) [not null]
+  max_segment int
+  created_at timestamptz [not null, default: `now()`]
+  deleted_at timestamptz
+  
+  Indexes {
+    video_id
+  }
+}
+
+Table categories as C {
+  id bigserial [pk, increment]
+  name VARCHAR(255) [unique, not null]
+  description VARCHAR(255)
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+  deleted_at timestamptz
+}
+
+Table video_categories {
+  id bigserial [pk, increment]
+  video_id bigserial [not null, ref: > V.id]
+  category_id bigserial [not null, ref: > C.id]
+  created_at timestamptz [not null, default: `now()`]
+
+  Indexes {
+    video_id
+    category_id
+    (video_id, category_id) [unique]
+  }
+}
+
+Table comments {
+  id bigserial [pk, increment]
+  video_id bigserial [not null, ref: > videos.id]
+  user_id bigserial [not null, ref: > users.id]
+  content TEXT [not null]
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+  deleted_at timestamptz
+
+  Indexes {
+    video_id
+    user_id
+  }
+}
