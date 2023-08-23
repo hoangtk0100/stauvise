@@ -10,6 +10,7 @@ type business struct {
 	authBiz     AuthBusiness
 	userBiz     UserBusiness
 	categoryBiz CategoryBusiness
+	videoBiz    VideoBusiness
 }
 
 func NewBusiness(repo repository.Repository, tokenMaker token.TokenMaker) *business {
@@ -18,6 +19,7 @@ func NewBusiness(repo repository.Repository, tokenMaker token.TokenMaker) *busin
 		authBiz:     NewAuthBusiness(repo, tokenMaker),
 		userBiz:     NewUserBusiness(repo),
 		categoryBiz: NewCategoryBusiness(repo),
+		videoBiz:    NewVideoBusiness(repo),
 	}
 }
 
@@ -31,4 +33,8 @@ func (b *business) User() UserBusiness {
 
 func (b *business) Category() CategoryBusiness {
 	return b.categoryBiz
+}
+
+func (b *business) Video() VideoBusiness {
+	return b.videoBiz
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/hoangtk0100/stauvise/pkg/model"
 )
 
-func (server *Server) login(ctx *gin.Context) {
+func (server *Server) Login(ctx *gin.Context) {
 	var req model.LoginParams
 	if err := ctx.ShouldBind(&req); err != nil {
 		core.ErrorResponse(ctx, core.ErrBadRequest.WithError(err.Error()))

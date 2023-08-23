@@ -7,13 +7,16 @@ import (
 )
 
 type VideoFile struct {
-	ID        int64           `json:"id" gorm:"column:id;" db:"id"`
-	VideoID   int64           `json:"video_id" gorm:"column:video_id;"`
-	Name      string          `json:"name" gorm:"column:name;"`
-	Path      string          `json:"path" gorm:"column:path;"`
-	Provider  common.Provider `json:"provider" gorm:"column:provider;default:LOCAL;"`
-	CreatedAt *time.Time      `json:"created_at,omitempty" gorm:"column:created_at;" db:"created_at"`
-	DeletedAt *time.Time      `json:"deleted_at,omitempty" gorm:"column:deleted_at;" db:"deleted_at"`
+	ID         uint64          `json:"id" gorm:"column:id;" db:"id"`
+	VideoID    uint64          `json:"video_id" gorm:"column:video_id;"`
+	OriginName string          `json:"origin_name" gorm:"column:origin_name;"`
+	Name       string          `json:"name" gorm:"column:name;"`
+	Path       string          `json:"path" gorm:"column:path;"`
+	Format     string          `json:"format" gorm:"column:format;"`
+	Provider   common.Provider `json:"provider" gorm:"column:provider;default:LOCAL;"`
+	MaxSegment int             `json:"max_segment" gorm:"column:max_segment;"`
+	CreatedAt  *time.Time      `json:"created_at,omitempty" gorm:"column:created_at;" db:"created_at"`
+	DeletedAt  *time.Time      `json:"deleted_at,omitempty" gorm:"column:deleted_at;" db:"deleted_at"`
 }
 
 func (VideoFile) TableName() string {
