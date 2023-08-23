@@ -15,6 +15,28 @@ services:
     ports:
       - "5432:5432"
 
+  api:
+    build: .
+    restart: always
+    container_name: stauvise_api
+    environment:
+      DB_SOURCE: postgres://postgres:postgres@db:5432/stauvise?sslmode=disable
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+    networks:
+      - stauvise_network
+    depends_on:
+      - db
+    entrypoint:
+      [
+        "/app/wait-for-it.sh",
+        "db:5432",
+        "--",
+        "/app/start.sh"
+      ]
+    command: [ "/app/server" ]
+    
 volumes:
   db_data:
 
