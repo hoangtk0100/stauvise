@@ -3,7 +3,6 @@ package business
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/hoangtk0100/app-context/core"
 	"github.com/hoangtk0100/app-context/util"
@@ -26,16 +25,8 @@ func NewUserBusiness(repo repository.Repository) *userBusiness {
 	return &userBusiness{repo: repo}
 }
 
-type userResponse struct {
-	Username          string    `json:"username"`
-	FullName          string    `json:"full_name"`
-	Email             string    `json:"email"`
-	PasswordChangedAt time.Time `json:"password_changed_at"`
-	CreatedAt         time.Time `json:"created_at"`
-}
-
-func newUserResponse(user *model.User) userResponse {
-	return userResponse{
+func newUserResponse(user *model.User) *model.UserResponse {
+	return &model.UserResponse{
 		Username:          user.Username,
 		FullName:          user.FullName,
 		Email:             user.Email,
@@ -44,7 +35,7 @@ func newUserResponse(user *model.User) userResponse {
 	}
 }
 
-func (b *userBusiness) Register(ctx context.Context, data *model.CreateUserParams) (interface{}, error) {
+func (b *userBusiness) Register(ctx context.Context, data *model.CreateUserParams) (*model.UserResponse, error) {
 	if err := validator.ValidatePassword(data.Password); err != nil {
 		return nil, core.ErrBadRequest.
 			WithError(err.Error()).
@@ -88,7 +79,7 @@ func (b *userBusiness) Register(ctx context.Context, data *model.CreateUserParam
 	return newUserResponse(user), nil
 }
 
-func (b *userBusiness) GetProfile(ctx context.Context) (interface{}, error) {
+func (b *userBusiness) GetProfile(ctx context.Context) (*model.UserResponse, error) {
 	requester := core.GetRequester(ctx)
 
 	user, err := b.repo.User().GetByUsername(ctx, requester.GetUID())

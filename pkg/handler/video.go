@@ -6,6 +6,20 @@ import (
 	"github.com/hoangtk0100/stauvise/pkg/model"
 )
 
+// CreateVideo godoc
+// @Summary Create a new video
+// @Description Create a new video
+// @Tags video
+// @Accept multipart/form-data
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Param title formData string true "Title"
+// @Param description formData string false "Description"
+// @Param category_ids formData []uint64 true "CategoryIDs"
+// @Param file formData file true "Media file"
+// @Success 200 {object} successResponse
+// @Failure 400,404,500 {object} errorResponse
+// @Router /videos [post]
 func (server *Server) CreateVideo(ctx *gin.Context) {
 	var req model.CreateVideoParams
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -28,6 +42,19 @@ func (server *Server) CreateVideo(ctx *gin.Context) {
 	core.SuccessResponse(ctx, core.NewDataResponse(id))
 }
 
+// GetVideos godoc
+// @Summary List videos by filters
+// @Description List videos by filters
+// @Tags video
+// @Accept json
+// @Produce json
+// @Param page query int false "Page"
+// @Param limit query int false "Limit"
+// @Param user_id query int false "UserID"
+// @Param status query string false "Status"
+// @Success 200 {object} successResponse
+// @Failure 400,404,500 {object} errorResponse
+// @Router /videos [get]
 func (server *Server) GetVideos(ctx *gin.Context) {
 	var queryString struct {
 		core.Paging
@@ -54,6 +81,16 @@ type videoIDRequest struct {
 	ID uint64 `uri:"id" binding:"required"`
 }
 
+// GetVideoDetails godoc
+// @Summary Get video details
+// @Description Get video details
+// @Tags video
+// @Accept json
+// @Produce json
+// @Param id path int true "ID"
+// @Success 200 {object} successResponse
+// @Failure 400,404,500 {object} errorResponse
+// @Router /videos/{id} [get]
 func (server *Server) GetVideoDetails(ctx *gin.Context) {
 	var reqID videoIDRequest
 	if err := ctx.ShouldBindUri(&reqID); err != nil {
@@ -70,6 +107,18 @@ func (server *Server) GetVideoDetails(ctx *gin.Context) {
 	core.SuccessResponse(ctx, core.NewDataResponse(video))
 }
 
+// GetSegments godoc
+// @Summary Get video segments
+// @Description Get video segments
+// @Tags video
+// @Accept json
+// @Produce json
+// @Param id path int true "ID"
+// @Param page query int false "Page"
+// @Param limit query int false "Limit"
+// @Success 200 {object} successResponse
+// @Failure 400,404,500 {object} errorResponse
+// @Router /videos/{id}/segments [get]
 func (server *Server) GetSegments(ctx *gin.Context) {
 	var reqID videoIDRequest
 	if err := ctx.ShouldBindUri(&reqID); err != nil {

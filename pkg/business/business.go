@@ -16,12 +16,12 @@ type Business interface {
 }
 
 type AuthBusiness interface {
-	Login(ctx context.Context, data *model.LoginParams) (interface{}, error)
+	Login(ctx context.Context, data *model.LoginParams) (*model.LoginResponse, error)
 }
 
 type UserBusiness interface {
-	Register(ctx context.Context, data *model.CreateUserParams) (interface{}, error)
-	GetProfile(ctx context.Context) (interface{}, error)
+	Register(ctx context.Context, data *model.CreateUserParams) (*model.UserResponse, error)
+	GetProfile(ctx context.Context) (*model.UserResponse, error)
 }
 
 type CategoryBusiness interface {

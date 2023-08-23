@@ -6,6 +6,18 @@ import (
 	"github.com/hoangtk0100/stauvise/pkg/model"
 )
 
+// CreateCategory godoc
+// @Summary Create a new category
+// @Description Create a new category
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Param name body string true "Name" alphanum
+// @Param description body string false "Description"
+// @Success 200 {object} successResponse
+// @Failure 400,404,500 {object} errorResponse
+// @Router /categories [post]
 func (server *Server) CreateCategory(ctx *gin.Context) {
 	var req model.CreateCategoryParams
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -22,6 +34,16 @@ func (server *Server) CreateCategory(ctx *gin.Context) {
 	core.SuccessResponse(ctx, core.NewDataResponse(category))
 }
 
+// GetCategories godoc
+// @Summary Get all categories
+// @Description Get all categories
+// @Tags category
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Bearer token"
+// @Success 200 {object} successResponse
+// @Failure 400,404,500 {object} errorResponse
+// @Router /categories [get]
 func (server *Server) GetCategories(ctx *gin.Context) {
 	categories, err := server.biz.Category().GetAll(ctx)
 	if err != nil {

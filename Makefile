@@ -40,4 +40,13 @@ migratedown:
 migratedown1:
 	migrate -path migration -database "$(DB_SOURCE)" -verbose down 1
 
-.PHONY: up upv updb down server build outenv outenvfile new_migration migrateup migratedown migrateup1 migratedown1
+dbdocs:
+	dbdocs build docs/db.dbml
+
+dbschema:
+	dbml2sql --posgres -o docs/schema.sql docs/db.dbml
+
+swagger:
+	swag init
+
+.PHONY: up upv updb down server build outenv outenvfile new_migration migrateup migratedown migrateup1 migratedown1 dbdocs dbschema swagger

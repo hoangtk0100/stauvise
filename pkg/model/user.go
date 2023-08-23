@@ -17,13 +17,13 @@ func (User) TableName() string {
 }
 
 type CreateUserParams struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Username string `json:"username" binding:"required,alphanum"`
+	Password string `json:"password" binding:"required,min=8"`
 	FullName string `json:"full_name" binding:"required"`
 	Email    string `json:"email" binding:"required"`
 }
 
 type LoginParams struct {
-	Username string `json:"username" binding:"required"`
-	Password string `json:"password" binding:"required"`
+	Username string `json:"username" binding:"required,alphanum"`
+	Password string `json:"password" binding:"required,min=8"`
 }

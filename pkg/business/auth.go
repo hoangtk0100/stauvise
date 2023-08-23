@@ -3,10 +3,8 @@ package business
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"github.com/hoangtk0100/app-context/component/token"
 	"github.com/hoangtk0100/app-context/core"
 	"github.com/hoangtk0100/app-context/util"
@@ -31,16 +29,7 @@ func NewAuthBusiness(repo repository.Repository, tokenMaker token.TokenMaker) *a
 	}
 }
 
-type loginResponse struct {
-	SessionID             uuid.UUID    `json:"session_id"`
-	AccessToken           string       `json:"access_token"`
-	AccessTokenExpiresAt  time.Time    `json:"access_token_expires_at"`
-	RefreshToken          string       `json:"refresh_token"`
-	RefreshTokenExpiresAt time.Time    `json:"refresh_token_expires_at"`
-	User                  userResponse `json:"user"`
-}
-
-func (a *authBusiness) Login(ctx context.Context, data *model.LoginParams) (interface{}, error) {
+func (a *authBusiness) Login(ctx context.Context, data *model.LoginParams) (*model.LoginResponse, error) {
 	user, err := a.repo.User().GetByUsername(ctx, data.Username)
 	if err != nil {
 		if core.ErrNotFound.Is(err) {
@@ -102,13 +91,13 @@ func (a *authBusiness) Login(ctx context.Context, data *model.LoginParams) (inte
 			WithDebug(err.Error())
 	}
 
-	rsp := loginResponse{
+	rsp := &model.LoginResponse{
 		SessionID:             session.ID,
 		AccessToken:           accessToken,
 		AccessTokenExpiresAt:  accessPayload.ExpiredAt,
 		RefreshToken:          refreshToken,
 		RefreshTokenExpiresAt: refreshPayload.ExpiredAt,
-		User:                  newUserResponse(user),
+		User:                  *newUserResponse(user),
 	}
 
 	return rsp, nil
