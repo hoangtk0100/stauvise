@@ -8,12 +8,45 @@ This service implements these main features:
 3. Create and manage categories.
 4. Create and manage videos.
 
+
 Supported transport protocols
+
 - [x] HLS
 - [ ] RTMP
 - [ ] FLV
 
+
+Supported file extensions
+
+-  *Video Formats:*
+
+	- [x] mp4 (MPEG-4 Part 14)
+	- [x] mov (QuickTime Movie)
+	- [x] avi (Audio Video Interleave)
+	- [x] mkv (Matroska Video)
+	- [x] flv (Flash Video)
+	- [x] webm (WebM Video)
+
+
+-  *Audio Formats:*
+
+	- [x] mp3 (MPEG Audio Layer III)
+	- [x] aac (Advanced Audio Coding)
+	- [x] wav (Waveform Audio File Format)
+	- [x] flac (Free Lossless Audio Codec)
+	- [x] ogg (Ogg Vorbis Audio)
+
+
+-  *Other Formats:*
+
+	- [x] ts (Transport Stream)
+	- [x] m2ts (Blu-ray BDAV MPEG-2 Transport Stream)
+	- [x] 3gp (3GPP Multimedia File)
+	- [x] wmv (Windows Media Video)
+ 
+
 Infrastructure:
+
 - App context: [AppContext](https://github.com/hoangtk0100/app-context) (library packages common components)
 - ffmpeg: `ffmpeg`
 - Token authentication: `PASETO`
