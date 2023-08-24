@@ -48,12 +48,10 @@ func NewServer(config *common.Config) *Server {
 }
 
 func (server *Server) setupRoutes() {
-	router := server.router
-
-	router.Use(mdw.Recovery(server.config.CTX), mdw.CORS(nil))
+	server.router.Use(mdw.Recovery(server.config.CTX), mdw.CORS(nil))
+	v1 := server.router.Group(v1Prefix)
 	authMdw := middleware.RequireAuth(server.repo.User(), server.GetTokenMaker())
 
-	v1 := router.Group(v1Prefix)
 	v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	docs.SwaggerInfo.BasePath = v1Prefix
 
@@ -74,8 +72,6 @@ func (server *Server) setupRoutes() {
 	videos.GET("", server.GetVideos)
 	videos.GET("/:id", server.GetVideoDetails)
 	videos.GET("/:id/segments", server.GetSegments)
-
-	server.router = router
 }
 
 func (server *Server) GetRouter() *gin.Engine {
