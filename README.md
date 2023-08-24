@@ -221,7 +221,7 @@ Infrastructure:
     ```
 
 
-## 3. API Endpoints - [Swagger](http://localhost:8080/api/v1/swagger/index.html)
+## 3. API Docs - [Swagger](http://localhost:8080/api/v1/swagger/index.html) | [Postman Collection](static/stauvise.postman_collection.json)
 | Method | Path                                    | Description                   | Notes                             |
 | ------ | --------------------------------------- | ----------------------------- | --------------------------------- |
 | POST   | `/api/v1/users/register`                    | Register a new user           | Receives user details             |
