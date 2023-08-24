@@ -16,9 +16,10 @@ Supported transport protocols
 Infrastructure:
 - App context: [AppContext](https://github.com/hoangtk0100/app-context) (library packages common components)
 - ffmpeg: `ffmpeg`
+- Token authentication: `PASETO`
 - Database migrations: `golang-migrate`
-- Generate CRUD operations from SQL: `gorm`
-- Database: `postgreSQL`
+- Generate CRUD operations from SQL: `GORM`
+- Database: `PostgreSQL`
 - Database documentation: `dbdocs`
 - Generate SQL schema: `dbml2sql`
 - Web framework: `Gin`
@@ -88,31 +89,31 @@ Infrastructure:
 
 ### Setup infrastructure
 
-- Start postgres container:
+- Start PostgreSQL container:
 
     ```bash
     make updb
     ```
 
-- Run db migration up all versions:
+- Run DB migration up all versions:
 
     ```bash
     make migrateup
     ```
 
-- Run db migration up 1 version:
+- Run DB migration up 1 version:
 
     ```bash
     make migrateup1
     ```
 
-- Run db migration down all versions:
+- Run DB migration down all versions:
 
     ```bash
     make migratedown
     ```
 
-- Run db migration down 1 version:
+- Run DB migration down 1 version:
 
     ```bash
     make migratedown1
@@ -126,7 +127,7 @@ Infrastructure:
     make dbdocs
     ```
 
-- Access the DB documentation at [this address](https://dbdocs.io/hoangtk.0100/stauvise).
+- Access the DB documentation at [THIS ADDRESS](https://dbdocs.io/hoangtk.0100/stauvise).
 
 ### How to generate code
 
@@ -148,7 +149,7 @@ Infrastructure:
     make dbschema
     ```
 
-- Create a new db migration:
+- Create a new DB migration:
 
     ```bash
     make new_migration name=<migration_name>
