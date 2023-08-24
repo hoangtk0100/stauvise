@@ -21,6 +21,8 @@ COPY start.sh .
 COPY wait-for-it.sh .
 COPY migration ./migration
 RUN chmod +x start.sh wait-for-it.sh
+RUN mkdir -p temp
+RUN mkdir -p videos
 
 EXPOSE 8080
 ENTRYPOINT ["/app/start.sh"]
